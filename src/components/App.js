@@ -7,6 +7,7 @@ import NoMatch from "./NoMatch";
 import Layout from "./Layout";
 import NavigationBar from "./NavigationBar"
 import { Jumbotron } from './Jumbotron'
+import NewRecipeForm from './NewRecipeForm'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route exact path="/" component={RecipeIndex} />
             <Route path="/Profile" component={Profile} />
             <Route path="/Favorites" component={Favorites} />
+            <Route path="/New" component={NewRecipeForm} />
             <Route component={NoMatch} />
           </Switch>
         </Router>
