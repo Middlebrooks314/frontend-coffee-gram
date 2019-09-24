@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App'
 import * as serviceWorker from './serviceWorker';
-
 import { combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import recipesReducer from './reducers/recipes-reducer'
@@ -17,24 +16,9 @@ const allReducers = combineReducers({
     user: userReducer
 })
 
-const store = createStore(
-    allReducers, 
-    {
-        recipes: [{ title: 'Aeropress'}], 
-        user: 'Byunski88'
-    }, 
-    window.__REDUX_DEVTOOLS_EXTENSION__()
-    );
+const store = createStore(allReducers,window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const action = {
-    type: 'changeState',
-    payload: {
-        newState: 'New State'
-    }
-};
 
-store.dispatch(action);
-console.log(store.getState())
 
 
 
