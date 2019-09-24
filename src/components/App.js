@@ -11,7 +11,8 @@ import NewRecipeForm from "./NewRecipeForm";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import { connect } from "react-redux";
-import { updateUser } from '../actions/user-actions'
+import { updateUser } from '../actions/user-actions';
+import SingleRecipe  from "./SingleRecipe"
 
 
 class App extends React.Component {
@@ -30,6 +31,7 @@ class App extends React.Component {
               <Route path="/New" component={NewRecipeForm} />
               <Route path="/Login" component={LoginForm} />
               <Route path="/Signup" component={SignUpForm} />
+              <Route path="/Recipe" component={SingleRecipe} />
               <Route component={NoMatch} />
             </Switch>
           </Router>
