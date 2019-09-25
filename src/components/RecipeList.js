@@ -14,23 +14,11 @@ const RecipeList = props => {
   );
 };
 
-
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    recipes: state.recipes
-  }
-}
+    recipes: state.recipes.allRecipes
+  };
+};
 
-const mapDispatchToProps = () => {
-  return {
-    fetchRecipes: () => {console.log('HELLO') }
-  }
-}
 
-// mapDispatchToProps = allows us to read the state from the store
-// mapStateToProps = allows us to write to the store
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RecipeList);
-
+export default connect(mapStateToProps)(RecipeList);
