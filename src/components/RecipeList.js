@@ -3,7 +3,7 @@ import RecipeCard from "./RecipeCard";
 import { CardDeck } from "react-bootstrap";
 import { connect } from "react-redux";
 
-const RecipeList = (props) => {
+const RecipeList = props => {
   console.log("in RecipeList", props);
   return (
     <CardDeck>
@@ -20,14 +20,5 @@ const mapStateToProps = state => {
   };
 };
 
-// const mapDispatchToProps = () => {
-//   return {
-//     fetchRecipes: () => {console.log('HELLO') }
-//   }
-// }
 
-// // mapDispatchToProps = allows us to read the state from the store
-// // mapStateToProps = allows us to write to the store
 export default connect(mapStateToProps)(RecipeList);
-
-// export default RecipeList;

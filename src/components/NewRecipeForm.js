@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Col, Button, Modal } from "react-bootstrap";
-import { postFetchNewRecipe } from "../reducers/recipes-reducer";
+import { postNewRecipe } from "../reducers/recipes-reducer";
+import { connect } from "react-redux";
 
 // import the thunk
 // create a map dispatch to props, import connect from react redux
@@ -10,30 +11,33 @@ import { postFetchNewRecipe } from "../reducers/recipes-reducer";
 
 class NewRecipeForm extends Component {
   state = {
-    title: '',
-    method: '', 
-    coffee: '',
-    water: '',
-    watertemp: '', 
-    grindsize: '',
-    time: '',
-    instructions: ''
-  }
+    title: "",
+    method: "",
+    coffee: "",
+    water: "",
+    watertemp: "",
+    grindsize: "",
+    time: "",
+    instructions: "",
+    user_id: "5"
+    // for testing
+  };
 
-//  [event.target.name]: event.target.value will take in any of the fields that match any of the state objects and evaluate that as the key. 
-  handleFormChange = (event) => {
-    console.log(event.target.value)
+  //  [event.target.name]: event.target.value will take in any of the fields that match any of the state objects and evaluate that as the key.
+  handleChange = event => {
+    // console.log(event.target.value);
     this.setState({
       [event.target.name]: event.target.value
-     })
-  }
+    });
+  };
 
-//   handleSubmit = (event) => {
-//     event.preventDefault()
-//     this.props.handleEditSubmit(this.state, this.props.selectedNote.id)
+  handleSubmit = event => {
+    event.preventDefault();
+    this.props.postNewRecipe(this.state);
+  };
 
-  // }
   render() {
+    console.log(this.state);
     return (
       <Modal.Dialog>
         <Modal.Header>
@@ -48,37 +52,55 @@ class NewRecipeForm extends Component {
                 type="email"
                 name="title"
                 placeholder="ex. Sunday Morning French Press"
+                onChange={this.handleChange}
               />
             </Form.Group>
-            <Form.Group controlId="MethodSelect">
-              <Form.Label>Brewing Method</Form.Label>
-              <Form.Control name="method" as="select">
-                <option selected disabled>Select...</option>
-                <option>Aeropress</option>
-                <option>Beehouse Dripper</option>
-                <option>Chemex</option>
-                <option>Clever Dripper</option>
-                <option>Cold Brew Maker</option>
-                <option>French Press</option>
-                <option>Handheld Espresso Maker</option>
-                <option>Hario V60</option>
-                <option>Kalita Wave</option>
-                <option>Melitta</option>
-                <option>Moka Pot</option>
-                <option>Siphon/Vacuum</option>
-                <option>Turkish Coffee</option>
-                <option>Other</option>
-              </Form.Control>
-            </Form.Group>
             <Form.Row>
-              <Form.Group as={Col} name="coffee" controlId="CoffeeWeight">
+              <Form.Group controlId="MethodSelect">
+                <Form.Label>Brewing Method</Form.Label>
+                <Form.Control
+                  name="method"
+                  as="select"
+                  onChange={this.handleChange}
+                >
+                  <option selected disabled>
+                    Select...
+                  </option>
+                  <option>Aeropress</option>
+                  <option>Beehouse Dripper</option>
+                  <option>Chemex</option>
+                  <option>Clever Dripper</option>
+                  <option>Cold Brew Maker</option>
+                  <option>French Press</option>
+                  <option>Handheld Espresso Maker</option>
+                  <option>Hario V60</option>
+                  <option>Kalita Wave</option>
+                  <option>Melitta</option>
+                  <option>Moka Pot</option>
+                  <option>Siphon/Vacuum</option>
+                  <option>Turkish Coffee</option>
+                  <option>Other</option>
+                </Form.Control>
+              </Form.Group>
+              <Form.Group as={Col} controlId="time">
+                <Form.Label>Time (mm:ss)</Form.Label>
+                <Form.Control name="time" onChange={this.handleChange} />
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col}>
                 <Form.Label>Coffee (g)</Form.Label>
-                <Form.Control />
+                <Form.Control name="coffee" onChange={this.handleChange} />
               </Form.Group>
 
-              <Form.Group as={Col} name="grindsize" controlId="GrindSize">
+              <Form.Group as={Col} controlId="GrindSize">
                 <Form.Label>Grind Size</Form.Label>
-                <Form.Control as="select">
+
+                <Form.Control
+                  as="select"
+                  name="grindsize"
+                  onChange={this.handleChange}
+                >
                   <option>Select...</option>
                   <option>Extra Fine</option>
                   <option>Fine</option>
@@ -90,35 +112,53 @@ class NewRecipeForm extends Component {
                 </Form.Control>
               </Form.Group>
 
-              <Form.Group as={Col} name="water" controlId="WaterWeight">
+              <Form.Group as={Col} controlId="WaterWeight">
                 <Form.Label>Water (g)</Form.Label>
-                <Form.Control />
+                <Form.Control name="water" onChange={this.handleChange} />
               </Form.Group>
 
-              <Form.Group as={Col} name="watertemp" controlId="WaterTemp">
+              <Form.Group as={Col} controlId="WaterTemp">
                 <Form.Label>WaterTemp(F)</Form.Label>
-                <Form.Control />
+                <Form.Control name="watertemp" onChange={this.handleChange} />
               </Form.Group>
             </Form.Row>
 
-            <Form.Group name="instructions" controlId="Instructions">
+            <Form.Group controlId="Instructions">
               <Form.Label>Brewing Instructions:</Form.Label>
-              <Form.Control as="textarea" />
+              <Form.Control
+                as="textarea"
+                name="instructions"
+                onChange={this.handleChange}
+              />
             </Form.Group>
 
-            <Form.Group name="notes" controlId="Notes">
+            <Form.Group controlId="Notes">
               <Form.Label>Notes:</Form.Label>
-              <Form.Control as="textarea" />
+              <Form.Control
+                as="textarea"
+                name="notes"
+                onChange={this.handleChange}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="outline-secondary">Submit</Button>
+          <Button variant="outline-secondary" onClick={this.handleSubmit}>
+            Submit
+          </Button>
         </Modal.Footer>
       </Modal.Dialog>
     );
   }
 }
+const mapDispatchToProps = dispatch => ({
+  postRecipe: () => {
+    dispatch(postNewRecipe());
+  }
+});
 
-export default NewRecipeForm;
+export default connect(
+  mapDispatchToProps,
+  { postNewRecipe }
+)(NewRecipeForm);

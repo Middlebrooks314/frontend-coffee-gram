@@ -11,7 +11,7 @@ import NewRecipeForm from "./NewRecipeForm";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import { connect } from "react-redux";
-import { updateUser } from "../actions/user-actions";
+// import { updateUser } from "../actions/user-actions";
 import SingleRecipe from "./SingleRecipe";
 import { fetchInitialRecipes } from '../reducers/recipes-reducer'
 
@@ -21,7 +21,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <React.Fragment>
         <NavigationBar />

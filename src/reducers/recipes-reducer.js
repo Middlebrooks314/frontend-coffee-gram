@@ -1,5 +1,7 @@
 const recipesURL = "http://localhost:3000/api/v1/recipes";
-// way to catch error if I mispell the variable
+
+
+// making a varibale is like a pseudo-linter, way to catch error if I mispell the variable
 // action types
 const GET_RECIPES = "GET_RECIPES";
 const NEW_RECIPE = "NEW_RECIPE";
@@ -24,19 +26,20 @@ const newRecipe = recipe => {
 
 export const fetchInitialRecipes = () => {
   return async dispatch => {
-    console.log("thunk-Fired!!");
+    // console.log("thunk fired!!");
     fetch(recipesURL)
       .then(resp => resp.json())
-    //   .then(recipes => {
-    //     dispatch(getRecipes(recipes));
-    //   })
+      .then(recipes => {
+        dispatch(getRecipes(recipes));
+      })
     .then(console.log)
       .catch(err => console.log(err));
   };
 };
 
-export const postFetchNewRecipe = recipeObj => {
+export const postNewRecipe = (recipeObj) => {
   return async dispatch => {
+    console.log("post-thunk fired!");
     const recipeBody = { recipe: recipeObj };
     fetch(recipesURL, {
       method: "POST",
@@ -49,7 +52,8 @@ export const postFetchNewRecipe = recipeObj => {
       .then(resp => resp.json())
       .then(recipe => {
         dispatch(newRecipe(recipe));
-      }).catch(error => console.log(error))
+      }).then(console.log)
+      .catch(error => console.log(error))  
   };
 };
 
