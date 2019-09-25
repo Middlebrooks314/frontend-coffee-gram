@@ -11,13 +11,17 @@ import NewRecipeForm from "./NewRecipeForm";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import { connect } from "react-redux";
-import { updateUser } from '../actions/user-actions';
-import SingleRecipe  from "./SingleRecipe"
-
+import { updateUser } from "../actions/user-actions";
+import SingleRecipe from "./SingleRecipe";
+import { fetchInitialRecipes } from '../reducers/recipes-reducer'
 
 class App extends React.Component {
+  componentDidMount() {
+    this.props.fetchRecipes();
+  }
+
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <React.Fragment>
         <NavigationBar />
@@ -41,14 +45,16 @@ class App extends React.Component {
   }
 }
 
-// receives the state of the store so it can be passed to components if needed.
-const mapStateToProps = state => ({
-  recipes: state.recipes, 
-  user: state.user
+
+
+// pulling functions from the reducer file and placing them as props on this component, giving component more props
+const mapDispatchToProps = dispatch => ({
+  fetchRecipes: () => {
+    dispatch(fetchInitialRecipes())
+  }
 });
 
-const mapDispatchToProps = {
-  onUpdateUser: updateUser
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);
