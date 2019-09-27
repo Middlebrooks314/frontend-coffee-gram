@@ -20,7 +20,7 @@ class NewUserForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.userPostFetch(this.state);
+    this.props.userPostFetch(this.state, this.props.history);
     console.log('submiting', this.state)
   };
 
@@ -70,7 +70,7 @@ class NewUserForm extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  userPostFetch: userInfo => dispatch(userPostFetch(userInfo))
+  userPostFetch: (userInfo, history) => dispatch(userPostFetch(userInfo, history))
 })
 
 export default connect(null, mapDispatchToProps)(NewUserForm);

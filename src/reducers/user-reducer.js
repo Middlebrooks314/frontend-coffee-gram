@@ -6,7 +6,7 @@ const loginURL = "http://localhost:3000/api/v1/login";
 // action types
 
 const LOGIN_USER = "LOGIN_USER";
-const GET_USERS = "GET_USERS";
+
 
 //action creators
 
@@ -19,7 +19,7 @@ const loginUser = user => {
 
 //thunk - implicitly returns another function asynch between the dispatch and the reducer
 
-export const userPostFetch = user => {
+export const userPostFetch = (user, history) => {
   return async dispatch => {
     console.log("user post-thunk fired!");
     fetch(userURL, {
@@ -41,16 +41,17 @@ export const userPostFetch = user => {
         } else {
           localStorage.setItem("token", user.jwt);
           dispatch(loginUser(user.user));
+          history.push("/");
         }
       })
       .catch(error => console.log(error));
   };
 };
 
-export const userLoginFetch = user => {
+export const userLoginFetch = (user, history) => {
   return async dispatch => {
     console.log("login thunk fired", user);
-    return fetch(loginURL, {
+    fetch(loginURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,6 +61,7 @@ export const userLoginFetch = user => {
     })
       .then(resp => resp.json())
       .then(user => {
+          console.log(user)
         if (user.message) {
           console.log(user.message);
           // Here you should have logic to handle invalid login credentials.
@@ -67,8 +69,10 @@ export const userLoginFetch = user => {
           // 'message' if there is an error
           //action: error message with dispatch of error message, mapState in login form of the error
         } else {
+        console.log("fetch login", user)
           localStorage.setItem("token", user.jwt);
           dispatch(loginUser(user.user));
+          history.push("/")
         }
       })
       .catch(error => console.log(error));
@@ -92,6 +96,7 @@ export const getProfileFetch = () => {
           if (user.message) {
             localStorage.removeItem("token");
           } else {
+              console.log('profile fetching tokensss persisting')
             dispatch(loginUser(user.user));
           }
         })

@@ -15,12 +15,20 @@ componentDidMount(){
     return isLoaded ? (
       <div>
         <Card className="text-center">
-          <Card.Header>{this.props.recipe.title}</Card.Header>
+          <Card.Header><Card.Title>{this.props.recipe.title}</Card.Title></Card.Header>
           <Card.Body>
-            <Card.Title>Special title treatment</Card.Title>
+          <Card.Title>Method: {this.props.recipe.method}</Card.Title>
             <Card.Text>
-              With supporting text below as a natural lead-in to additional
-              content.
+            coffee: {this.props.recipe.coffee} g.
+            </Card.Text>
+            <Card.Text>
+            coffee: {this.props.recipe.coffee} g.
+            </Card.Text>
+            <Card.Text>
+            coffee: {this.props.recipe.coffee} g.
+            </Card.Text>
+            <Card.Text>
+            coffee: {this.props.recipe.coffee} g.
             </Card.Text>
             <Button variant="primary">Go somewhere</Button>
           </Card.Body>

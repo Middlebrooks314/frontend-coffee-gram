@@ -19,7 +19,7 @@ class LoginForm extends Component {
   handleSubmit = (event) => {
     console.log(this.state)
     event.preventDefault();
-    this.props.userLoginFetch(this.state);
+    this.props.userLoginFetch(this.state, this.props.history);
   };
 
   render() {
@@ -64,7 +64,7 @@ class LoginForm extends Component {
 
 
 const mapDispatchToProps = dispatch => ({
-  userLoginFetch: userInfo => dispatch(userLoginFetch(userInfo))
+  userLoginFetch: (userInfo, history) => dispatch(userLoginFetch(userInfo, history))
 })
 
 export default connect(null, mapDispatchToProps)(LoginForm);

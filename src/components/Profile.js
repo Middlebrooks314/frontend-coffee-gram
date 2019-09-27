@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
+
 
 class Profile extends Component {
     render() {
@@ -11,4 +14,20 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+
+// passing props of data from the store to this component
+const mapStateToProps = (state) => ({
+    
+  })
+  
+  
+  const mapDispatchToProps = (dispatch) => ({
+    
+    
+  })
+  
+  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));
+  
+
+
+// export default Profile;
