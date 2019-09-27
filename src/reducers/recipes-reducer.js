@@ -5,7 +5,7 @@ const recipesURL = "http://localhost:3000/api/v1/recipes";
 // action types
 const GET_RECIPES = "GET_RECIPES";
 const NEW_RECIPE = "NEW_RECIPE";
-
+const SELECTED_RECIPE = "SELECTED_RECIPE";
 //action creators
 
 const getRecipes = recipesArr => {
@@ -22,19 +22,27 @@ const newRecipe = recipe => {
   };
 };
 
+const selectedRecipe = recipe => {
+  return {
+    type: SELECTED_RECIPE,
+    payload: recipe
+  };
+};
+
+
 //thunk - implicitly returns another function asynch between the dispatch and the reducer
 
 export const fetchInitialRecipes = () => {
   return async dispatch => {
     // console.log("thunk fired!!");
-    fetch(recipesURL)
+    return (fetch(recipesURL)
       .then(resp => resp.json())
       .then(recipes => {
         dispatch(getRecipes(recipes));
       })
     .then(console.log)
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.log(err))
+    )};
 };
 
 export const postNewRecipe = (recipeObj) => {
@@ -51,16 +59,31 @@ export const postNewRecipe = (recipeObj) => {
     })
       .then(resp => resp.json())
       .then(recipe => {
-        dispatch(newRecipe(recipe));
+        dispatch(newRecipe(recipe))
+        // this.props.history.push("/")
       }).then(console.log)
       .catch(error => console.log(error))  
   };
 };
 
+export const fetchSingleRecipe = (id) => {
+  return async dispatch => {
+    console.log("get recipe thunk fired", id)
+    fetch(`${recipesURL}/${id}`)
+    .then(resp => resp.json())
+    .then(recipe => {
+      console.log(recipe)
+      dispatch(selectedRecipe(recipe))
+    })
+  }
+}
+
+
 //initial state
 
 const initialState = {
-  allRecipes: []
+  allRecipes: [],
+  selectedRecipe: {}
   // add more keys here such as selected recipe
 };
 
@@ -78,6 +101,11 @@ export default function recipesReducer(state = initialState, action) {
             ...state, 
             allRecipes: [...state.allRecipes, action.payload]
         }
+    case SELECTED_RECIPE:
+      return {
+        ...state, 
+        selectedRecipe: action.payload
+      }
     default:
       return state;
   }

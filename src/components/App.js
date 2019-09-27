@@ -9,15 +9,20 @@ import NavigationBar from "./NavigationBar";
 import { Jumbotron } from "./Jumbotron";
 import NewRecipeForm from "./NewRecipeForm";
 import LoginForm from "./LoginForm";
-import SignUpForm from "./SignUpForm";
+import NewUserForm from "./NewUserForm";
 import { connect } from "react-redux";
 // import { updateUser } from "../actions/user-actions";
 import SingleRecipe from "./SingleRecipe";
-import { fetchInitialRecipes } from '../reducers/recipes-reducer'
+import { fetchInitialRecipes } from "../reducers/recipes-reducer";
+import { getProfileFetch } from "../reducers/user-reducer"
+
+
+
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.fetchRecipes();
+    this.props.fetchRecipes()
+    this.props.fetchProfile();
   }
 
   render() {
@@ -30,12 +35,12 @@ class App extends React.Component {
           <Router>
             <Switch>
               <Route exact path="/" component={RecipeIndex} />
-              <Route path="/Profile" component={Profile} />
-              <Route path="/Favorites" component={Favorites} />
-              <Route path="/New" component={NewRecipeForm} />
-              <Route path="/Login" component={LoginForm} />
-              <Route path="/Signup" component={SignUpForm} />
-              <Route path="/Recipe" component={SingleRecipe} />
+              <Route path="/profile/:id" component={Profile} />
+              <Route path="/favorites" component={Favorites} />
+              <Route path="/new" component={NewRecipeForm} />
+              <Route path="/login" component={LoginForm} />
+              <Route path="/signup" component={NewUserForm} />
+              <Route path="/recipe/:id" component={SingleRecipe} />
               <Route component={NoMatch} />
             </Switch>
           </Router>
@@ -45,14 +50,15 @@ class App extends React.Component {
   }
 }
 
-
-
 // pulling functions from the reducer file and placing them as props on this component, giving component more props
-const mapDispatchToProps = dispatch => ({
-  fetchRecipes: () => {
-    dispatch(fetchInitialRecipes())
-  }
-});
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchRecipes: () => {
+      dispatch(fetchInitialRecipes());
+    }, 
+    fetchProfile: () => dispatch(getProfileFetch())
+  };
+};
 
 export default connect(
   null,

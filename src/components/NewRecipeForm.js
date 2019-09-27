@@ -19,8 +19,9 @@ class NewRecipeForm extends Component {
     grindsize: "",
     time: "",
     instructions: "",
+    image: "",
     user_id: "5"
-    // for testing
+    // hard coded user for testing
   };
 
   //  [event.target.name]: event.target.value will take in any of the fields that match any of the state objects and evaluate that as the key.
@@ -122,6 +123,16 @@ class NewRecipeForm extends Component {
                 <Form.Control name="watertemp" onChange={this.handleChange} />
               </Form.Group>
             </Form.Row>
+
+            <Form.Group controlId="RecipeImage">
+              <Form.Label>Photo</Form.Label>
+              <Form.Control
+                type="email"
+                name="image"
+                placeholder="Upload an image of your fresh brew"
+                onChange={this.handleChange}
+              />
+            </Form.Group>
 
             <Form.Group controlId="Instructions">
               <Form.Label>Brewing Instructions:</Form.Label>

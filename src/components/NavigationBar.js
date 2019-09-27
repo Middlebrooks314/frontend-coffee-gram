@@ -20,7 +20,7 @@ const Styles = styled.div`
 const NavigationBar = () => (
   <Styles>
     <Navbar expand="lg">
-      <Navbar.Brand href="/"> CoffeeGram </Navbar.Brand>
+      <Navbar.Brand href="/" > Coffee Gram </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
@@ -28,10 +28,10 @@ const NavigationBar = () => (
             <Nav.Link href="/">Home</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link href="/Favorites">Favorites</Nav.Link>
+            <Nav.Link href="/favorites">Favorites</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link href="/Profile">Profile</Nav.Link>
+            <Nav.Link href="/profile">Profile</Nav.Link>
           </Nav.Item>
         </Nav>
       </Navbar.Collapse>
