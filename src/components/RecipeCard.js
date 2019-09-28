@@ -8,7 +8,7 @@ const RecipeCard = props => {
     <div>
       <Card style={{ width: "18rem" }}>
         <Link to={`/recipe/${props.recipe.id}`} > 
-          <Card.Img variant="top" src={props.recipe.image} />
+          <Card.Img className="img-fluid" variant="top" src={props.recipe.image} waves />
         </Link>
         <Card.Body>
           <Card.Title>{props.recipe.title}</Card.Title>

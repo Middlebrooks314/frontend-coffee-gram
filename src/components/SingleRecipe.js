@@ -19,18 +19,18 @@ componentDidMount(){
           <Card.Body>
           <Card.Title>Method: {this.props.recipe.method}</Card.Title>
             <Card.Text>
-            coffee: {this.props.recipe.coffee} g.
+            coffee: {this.props.recipe.coffee}g
             </Card.Text>
             <Card.Text>
-            coffee: {this.props.recipe.coffee} g.
+            grindsize: {this.props.recipe.grindsize}
             </Card.Text>
             <Card.Text>
-            coffee: {this.props.recipe.coffee} g.
+            time: {this.props.recipe.time}
             </Card.Text>
             <Card.Text>
-            coffee: {this.props.recipe.coffee} g.
+            water: {this.props.recipe.water} g.
             </Card.Text>
-            <Button variant="primary">Go somewhere</Button>
+            <Button variant="primary">Back</Button>
           </Card.Body>
           <Card.Footer className="text-muted">2 days ago</Card.Footer>
         </Card>
