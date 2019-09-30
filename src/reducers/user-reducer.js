@@ -6,6 +6,7 @@ const loginURL = "http://localhost:3000/api/v1/login";
 // action types
 
 const LOGIN_USER = "LOGIN_USER";
+const LOGOUT_USER = "LOGOUT_USER";
 
 
 //action creators
@@ -16,6 +17,14 @@ const loginUser = user => {
     payload: user
   };
 };
+
+const logoutUser = user => {
+  return {
+    type: LOGOUT_USER,
+    payload: user
+  };
+};
+
 
 //thunk - implicitly returns another function asynch between the dispatch and the reducer
 
@@ -96,7 +105,7 @@ export const getProfileFetch = () => {
           if (user.message) {
             localStorage.removeItem("token");
           } else {
-              console.log('profile fetching tokensss persisting')
+              console.log('profile fetching tokensss persisting', user)
             dispatch(loginUser(user.user));
           }
         })
@@ -112,7 +121,12 @@ const initialState = {
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case "LOGIN_USER":
-      return { ...state, currentUser: action.payload };
+      return { ...state, currentUser: action.payload, loggedIn: true };
+    case "LOGOUT_USER":
+      return {
+        currentUser: {}, 
+        logginIn: false
+      }
     default:
       return state;
   }

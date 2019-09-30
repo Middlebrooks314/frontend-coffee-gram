@@ -46,7 +46,7 @@ export const fetchInitialRecipes = () => {
     )};
 };
 
-export const postNewRecipe = (recipeObj) => {
+export const postNewRecipe = (recipeObj, history) => {
   return async dispatch => {
     console.log("post-thunk fired!");
     const recipeBody = { recipe: recipeObj };
@@ -61,7 +61,8 @@ export const postNewRecipe = (recipeObj) => {
       .then(resp => resp.json())
       .then(recipe => {
         dispatch(newRecipe(recipe))
-        // this.props.history.push("/")
+        dispatch(selectedRecipe(recipe))
+        history.push("/")
       }).then(console.log)
       .catch(error => console.log(error))  
   };

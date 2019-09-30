@@ -10,23 +10,27 @@ import { connect } from "react-redux";
 //modify the class in order to handle local state, onchange and handlesubmit= will take state and it will pass the it to the function that
 
 class NewRecipeForm extends Component {
-  state = {
-    title: "",
-    method: "",
-    coffee: "",
-    water: "",
-    watertemp: "",
-    grindsize: "",
-    time: "",
-    instructions: "",
-    image: "",
-    user_id: "5"
-    // hard coded user for testing
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      title: "",
+      method: "",
+      coffee: "",
+      water: "",
+      watertemp: "",
+      grindsize: "",
+      time: "",
+      instructions: "",
+      image: ""
+      // user_id: "5"
+      // hard coded user for testing
+    };
+  }
 
   //  [event.target.name]: event.target.value will take in any of the fields that match any of the state objects and evaluate that as the key.
   handleChange = event => {
     // console.log(event.target.value);
+    console.log(this.props.currentUser)
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -34,7 +38,8 @@ class NewRecipeForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.postNewRecipe(this.state);
+    this.props.postRecipe({...this.state, user_id: this.props.currentUser})
+    // console.log({...this.state, user_id: this.props.currentUser})
   };
 
   render() {
@@ -163,13 +168,22 @@ class NewRecipeForm extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    currentUser: state.user.currentUser.id
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
-  postRecipe: () => {
-    dispatch(postNewRecipe());
+  postRecipe: (recipe, history) => {
+    dispatch(postNewRecipe(recipe, history));
   }
 });
 
+
 export default connect(
-  mapDispatchToProps,
-  { postNewRecipe }
-)(NewRecipeForm);
+  mapStateToProps,
+  mapDispatchToProps
+  )(NewRecipeForm);
+  
+  // { postNewRecipe }
