@@ -17,8 +17,8 @@ const RecipeCard = props => {
           />
         </Link>
         <Card.Body>
-        <Link to={`/recipe/${props.recipe.id}`}>
-          <Card.Title>{props.recipe.title}</Card.Title>
+          <Link to={`/recipe/${props.recipe.id}`} className="link">
+            <Card.Title>{props.recipe.title}</Card.Title>
           </Link>
           <Card.Text>Method: {props.recipe.method}</Card.Text>
           <Card.Text>By {props.recipe.user.username}</Card.Text>

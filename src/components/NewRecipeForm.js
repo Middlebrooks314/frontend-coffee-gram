@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Col, Button, Modal } from "react-bootstrap";
 import { postNewRecipe } from "../reducers/recipes-reducer";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 // import the thunk
 // create a map dispatch to props, import connect from react redux
@@ -38,7 +39,7 @@ class NewRecipeForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.postRecipe({...this.state, user_id: this.props.currentUser})
+    this.props.postRecipe({...this.state, user_id: this.props.currentUser}, this.props.history)
     // console.log({...this.state, user_id: this.props.currentUser})
   };
 
@@ -184,6 +185,6 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-  )(NewRecipeForm);
+  )(withRouter(NewRecipeForm));
   
   // { postNewRecipe }

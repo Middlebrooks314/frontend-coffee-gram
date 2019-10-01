@@ -52,10 +52,12 @@ class LoginForm extends Component {
               />
             </Form.Group>
           </Form>
+          
         </Modal.Body>
 
         <Modal.Footer>
           <Button variant="outline-secondary" onClick={this.handleSubmit}>Login</Button>
+        <Button variant="outline-secondary" href="/signup" >Sign Up</Button>
         </Modal.Footer>
       </Modal.Dialog>
     );

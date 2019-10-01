@@ -1,5 +1,5 @@
 import React from 'react';
-import { Jumbotron as Jumbo, Container } from 'react-bootstrap';
+import { Jumbotron as Jumbo, Container, Form, FormControl, Button } from 'react-bootstrap';
 import styled from 'styled-components'
 import coffeeImage from '../assets/coffeeImage.jpg'
 
@@ -10,7 +10,7 @@ const Styles = styled.div`
         background: url(${coffeeImage}) no-repeat fixed bottom;
         background-size: cover;
         color: #ccc;
-        height: 200px;
+        height: 350px;
         position: relative;
         z-index: -2
     }
@@ -32,7 +32,7 @@ export const Jumbotron = () => (
     <Styles>
         <Jumbo fluid className="jumbo">
             <Container>
-                {/* <h2>Hey there</h2> */}
+        
             </Container>
         </Jumbo>
     </Styles>

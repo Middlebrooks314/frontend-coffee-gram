@@ -61,8 +61,8 @@ export const postNewRecipe = (recipeObj, history) => {
       .then(resp => resp.json())
       .then(recipe => {
         dispatch(newRecipe(recipe))
-        dispatch(selectedRecipe(recipe))
-        history.push("/")
+        dispatch({type: SELECTED_RECIPE, recipe})
+        history.push(`recipe/${recipe.id}`)
       }).then(console.log)
       .catch(error => console.log(error))  
   };

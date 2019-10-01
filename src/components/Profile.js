@@ -2,11 +2,17 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card } from "react-bootstrap";
+import { Card, CardDeck } from "react-bootstrap";
+import { getUserProfileData } from "../reducers/user-reducer";
+import RecipeCard from "./RecipeCard";
 
 class Profile extends React.Component {
+  componentDidMount() {
+    this.props.fetchUserProfile(this.props.match.params.id);
+  }
   render() {
-    console.log("in Profile", this.props);
+    console.log(this.props.match.params.id);
+    console.log("in Profile", this.props.selectedUser.recipes);
     const isLoaded = !!this.props.currentUser;
     return isLoaded ? (
       <div className="">
@@ -42,15 +48,20 @@ class Profile extends React.Component {
               )}
             </div>
             <div className="col-sm-12 col-lg-3">
-            <Link to="/new" className="btn btn-link">
-            Add New Recipe
-          </Link>
+              <Link to="/new" className="btn btn-link">
+                Add New Recipe
+              </Link>
             </div>
           </div>
           <Link to="/" className="btn btn-link">
             Back to recipes
           </Link>
         </div>
+        {/* <CardDeck>
+      {this.props.selectedUser.recipes.map(recipe => {
+        return <RecipeCard id={recipe.id} key={recipe.id} recipe={recipe} />;
+      })}
+    </CardDeck> */}
       </div>
     ) : (
       <div>loading.............</div>
@@ -61,11 +72,16 @@ class Profile extends React.Component {
 const mapStateToProps = state => {
   return {
     currentUser: state.user.currentUser,
-    recipes: state.recipes.allRecipes
+    recipes: state.recipes.allRecipes,
+    selectedUser: state.user.selectedUser
   };
 };
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  fetchUserProfile: id => {
+    dispatch(getUserProfileData(id));
+  }
+});
 
 export default withRouter(
   connect(
