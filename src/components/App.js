@@ -14,14 +14,11 @@ import { connect } from "react-redux";
 // import { updateUser } from "../actions/user-actions";
 import SingleRecipe from "./SingleRecipe";
 import { fetchInitialRecipes } from "../reducers/recipes-reducer";
-import { getProfileFetch } from "../reducers/user-reducer"
-
-
-
+import { getProfileFetch } from "../reducers/user-reducer";
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.fetchRecipes()
+    this.props.fetchRecipes();
     this.props.fetchProfile();
   }
 
@@ -29,10 +26,10 @@ class App extends React.Component {
     // console.log(this.props);
     return (
       <React.Fragment>
-        <NavigationBar />
-        <Jumbotron />
-        <Layout>
-          <Router>
+        <Router>
+          <NavigationBar />
+          <Jumbotron />
+          <Layout>
             <Switch>
               <Route exact path="/" component={RecipeIndex} />
               <Route path="/profile/:id" component={Profile} />
@@ -43,8 +40,8 @@ class App extends React.Component {
               <Route path="/recipe/:id" component={SingleRecipe} />
               <Route component={NoMatch} />
             </Switch>
-          </Router>
-        </Layout>
+          </Layout>
+        </Router>
       </React.Fragment>
     );
   }
@@ -55,7 +52,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchRecipes: () => {
       dispatch(fetchInitialRecipes());
-    }, 
+    },
     fetchProfile: () => dispatch(getProfileFetch())
   };
 };

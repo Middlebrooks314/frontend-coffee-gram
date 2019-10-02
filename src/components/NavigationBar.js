@@ -3,7 +3,6 @@ import { Nav, Navbar } from "react-bootstrap";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { logoutUser } from "../reducers/user-reducer";
-import { withRouter } from "react-router-dom";
 import WhiteCoffeeGramLogo from "../assets/WhiteCoffeeGramLogo.svg";
 
 const Styles = styled.div`
@@ -89,7 +88,7 @@ class NavigationBar extends React.Component {
 // export default NavigationBar
 
 const mapStateToProps = state => {
-  console.log("state in the navbarÔ", state);
+  // console.log("state in the navbarÔ", state);
   return {
     currentUser: state.user.currentUser
   };

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import RecipeList from "./RecipeList";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+
 
 class RecipeIndex extends Component {
   render() {

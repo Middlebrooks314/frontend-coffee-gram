@@ -9,15 +9,15 @@ class LoginForm extends Component {
     password: ""
   };
 
-  handleChange = (event) => {
-    console.log(this.state)
+  handleChange = event => {
+    // console.log(this.state);
     this.setState({
       [event.target.name]: event.target.value
     });
   };
 
-  handleSubmit = (event) => {
-    console.log(this.state)
+  handleSubmit = event => {
+    // console.log(this.state);
     event.preventDefault();
     this.props.userLoginFetch(this.state, this.props.history);
   };
@@ -52,23 +52,29 @@ class LoginForm extends Component {
               />
             </Form.Group>
           </Form>
-          
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="outline-secondary" onClick={this.handleSubmit}>Login</Button>
-        <Button variant="outline-secondary" href="/signup" >Sign Up</Button>
+          <Button variant="outline-secondary" onClick={this.handleSubmit}>
+            Login
+          </Button>
+          <Button variant="outline-secondary" href="/signup">
+            Sign Up
+          </Button>
         </Modal.Footer>
       </Modal.Dialog>
     );
   }
 }
 
-
 const mapDispatchToProps = dispatch => ({
-  userLoginFetch: (userInfo, history) => dispatch(userLoginFetch(userInfo, history))
-})
+  userLoginFetch: (userInfo, history) =>
+    dispatch(userLoginFetch(userInfo, history))
+});
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default connect(
+  null,
+  mapDispatchToProps
+)(LoginForm);
 
 // export default LoginForm;

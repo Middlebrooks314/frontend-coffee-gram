@@ -3,8 +3,8 @@ import RecipeCard from "./RecipeCard";
 import { CardDeck } from "react-bootstrap";
 import { connect } from "react-redux";
 
+
 const RecipeList = props => {
-  console.log("in RecipeList", props);
   return (
     <CardDeck>
       {props.recipes.map(recipe => {
@@ -16,7 +16,8 @@ const RecipeList = props => {
 
 const mapStateToProps = state => {
   return {
-    recipes: state.recipes.allRecipes
+    recipes: state.recipes.allRecipes,
+    currentUser: state.user.currentUser
   };
 };
 

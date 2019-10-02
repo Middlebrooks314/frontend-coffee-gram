@@ -1,12 +1,11 @@
-
 const recipesURL = "http://localhost:3000/api/v1/recipes";
 
-
-// making a varibale is like a pseudo-linter, way to catch error if I mispell the variable
+// making a variable is like a pseudo-linter, way to catch error if I mispell the variable
 // action types
 const GET_RECIPES = "GET_RECIPES";
 const NEW_RECIPE = "NEW_RECIPE";
 const SELECTED_RECIPE = "SELECTED_RECIPE";
+const DELETE_RECIPE = "DELETE_RECIPE";
 //action creators
 
 const getRecipes = recipesArr => {
@@ -30,20 +29,26 @@ const selectedRecipe = recipe => {
   };
 };
 
+const deleteRecipe = recipeId => {
+  return {
+    type: DELETE_RECIPE,
+    payload: recipeId
+  };
+};
 
 //thunk - implicitly returns another function asynch between the dispatch and the reducer
 
 export const fetchInitialRecipes = () => {
   return async dispatch => {
     // console.log("thunk fired!!");
-    return (fetch(recipesURL)
+    return fetch(recipesURL)
       .then(resp => resp.json())
       .then(recipes => {
         dispatch(getRecipes(recipes));
       })
-    .then(console.log)
-      .catch(err => console.log(err))
-    )};
+      .then(console.log)
+      .catch(err => console.log(err));
+  };
 };
 
 export const postNewRecipe = (recipeObj, history) => {
@@ -60,26 +65,41 @@ export const postNewRecipe = (recipeObj, history) => {
     })
       .then(resp => resp.json())
       .then(recipe => {
-        dispatch(newRecipe(recipe))
-        dispatch({type: SELECTED_RECIPE, recipe})
-        history.push(`recipe/${recipe.id}`)
-      }).then(console.log)
-      .catch(error => console.log(error))  
+        dispatch(newRecipe(recipe));
+        dispatch({ type: SELECTED_RECIPE, recipe });
+        history.push(`recipe/${recipe.id}`);
+      })
+      .then(console.log)
+      .catch(error => console.log(error));
   };
 };
 
-export const fetchSingleRecipe = (id) => {
+export const fetchSingleRecipe = id => {
   return async dispatch => {
-    console.log("get recipe thunk fired", id)
+    console.log("get recipe thunk fired", id);
     fetch(`${recipesURL}/${id}`)
-    .then(resp => resp.json())
-    .then(recipe => {
-      console.log(recipe)
-      dispatch(selectedRecipe(recipe))
-    })
-  }
-}
+      .then(resp => resp.json())
+      .then(recipe => {
+        console.log(recipe);
+        dispatch(selectedRecipe(recipe));
+      });
+  };
+};
 
+export const deleteRecipeFetch = (id, history) => {
+  return async dispatch => {
+    console.log("delete recipe thunk fired", id);
+    fetch(`${recipesURL}/${id}`, {
+      method: "DELETE"
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log("deleted", data.message);
+        dispatch(deleteRecipe(id));
+        history.push("/");
+      });
+  };
+};
 
 //initial state
 
@@ -99,15 +119,22 @@ export default function recipesReducer(state = initialState, action) {
         allRecipes: action.payload
       };
     case NEW_RECIPE:
-        return {
-            ...state, 
-            allRecipes: [...state.allRecipes, action.payload]
-        }
+      return {
+        ...state,
+        allRecipes: [...state.allRecipes, action.payload]
+      };
     case SELECTED_RECIPE:
       return {
-        ...state, 
+        ...state,
         selectedRecipe: action.payload
-      }
+      };
+    case DELETE_RECIPE:
+      // console.log("asdfasd", action);
+      return {
+        allRecipes: state.allRecipes.filter(
+          recipe => recipe.id !== action.payload
+        )
+      };
     default:
       return state;
   }

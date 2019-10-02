@@ -8,6 +8,8 @@ const loginURL = "http://localhost:3000/api/v1/login";
 const LOGIN_USER = "LOGIN_USER";
 const LOGOUT_USER = "LOGOUT_USER";
 const SELECTED_USER = "SELECTED_USER";
+const DELETE_USER = "DELETE_USER";
+const USER_FAVORITE_IDS = "USER_FAVORITE_IDS";
 
 //action creators
 
@@ -29,8 +31,29 @@ const getProfileData = user => {
   return {
     type: SELECTED_USER,
     payload: user
+  };
+};
+
+const deleteUser = userId => {
+  return {
+    type: DELETE_USER,
+    payload: userId
+  };
+};
+
+const setUserFavoriteIds = array => {
+  return {
+    type: USER_FAVORITE_IDS,
+    payload: array
   }
 }
+/**
+ *
+ * 
+ * 
+ * 
+ * 
+ */
 
 //thunk - implicitly returns another function asynch between the dispatch and the reducer
 
@@ -89,6 +112,10 @@ export const userLoginFetch = (user, history) => {
           localStorage.setItem("token", user.jwt);
           dispatch(loginUser(user.user));
           history.push("/");
+          const recipeId = user.user.favorites.map(favorite => {
+            return (favorite.recipe_id)
+          })
+          dispatch(setUserFavoriteIds(recipeId))
         }
       })
       .catch(error => console.log(error));
@@ -113,7 +140,12 @@ export const getProfileFetch = () => {
             localStorage.removeItem("token");
           } else {
             console.log("profile fetching tokensss persisting", user);
-            dispatch(loginUser(user.user));
+            dispatch(loginUser(user.user));      
+
+            const recipeId = user.user.favorites.map(favorite => {
+              return (favorite)
+            })
+            dispatch(setUserFavoriteIds(recipeId))
           }
         })
         .catch(error => console.log(error));
@@ -128,31 +160,55 @@ export const getUserProfileData = id => {
       .then(resp => resp.json())
       .then(data => {
         console.log(data);
-        dispatch(getProfileData(data))
+        dispatch(getProfileData(data));
       });
   };
 };
 
-const initialState = {
-  currentUser: {},
-  selectedUser: {}
-};
+export const deleteUserFetch = (id, history) => {
+  return async dispatch => {
+    console.log("delete user thunk fired", id);
+      fetch(`${userURL}/${id}`, {
+        method: "DELETE"
+      })
+        .then(resp => resp.json())
+        .then(data => {
+          console.log("deleted", data.message);
+          dispatch(deleteUser(id));
+          history.push("/");
+          localStorage.clear()
+        });
+    };
+  };
 
-export default function userReducer(state = initialState, action) {
-  switch (action.type) {
-    case "LOGIN_USER":
-      return { ...state, currentUser: action.payload, loggedIn: true };
-    case "LOGOUT_USER":
-      return {
-        currentUser: {},
-        logginIn: false
-      };
-    case SELECTED_USER:
-      return {
-        ...state,
-        selectedUser: action.payload
-      };
-    default:
-      return state;
+  const initialState = {
+    currentUser: {},
+    selectedUser: {},
+    userFavoriteIds: []
+  };
+
+  export default function userReducer(state = initialState, action) {
+    switch (action.type) {
+      case "LOGIN_USER":
+        return { ...state, currentUser: action.payload, loggedIn: true };
+      case "LOGOUT_USER":
+        return {
+          currentUser: {},
+          logginIn: false
+        };
+      case SELECTED_USER:
+        return {
+          ...state,
+          selectedUser: action.payload
+        };
+      case DELETE_USER:
+        return {
+          currentUser: {},
+          selectedUser: {},
+          logginIn: false
+        };
+      default:
+        return state;
+    }
   }
-}
+

@@ -1,18 +1,31 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchSingleRecipe } from "../reducers/recipes-reducer";
 import { Link } from "react-router-dom";
+import { deleteRecipeFetch } from "../reducers/recipes-reducer";
 
 class SingleRecipe extends React.Component {
   componentDidMount() {
     this.props.fetchRecipe(this.props.match.params.id);
   }
+  
+  handleDelete = () => {
+    console.log("delete", this.props.recipe.id);
+    let confirmDelete = window.confirm("Are you sure you want to delete this recipe?")
+    if (confirmDelete === true){
+
+      this.props.deleteRecipe(this.props.recipe.id, this.props.history)
+    }
+    else {
+      alert("you're recipe is still there")
+    }
+  };
 
   render() {
-    // console.log("in SingleRecipe", this.props);
+    console.log("in SingleRecipe", this.props);
     const isLoaded = !!this.props.recipe;
+
     return isLoaded ? (
       <div className="">
         <div className="">
@@ -51,11 +64,17 @@ class SingleRecipe extends React.Component {
                 }}
               />
             </div>
-            <div className="col-sm-12 col-lg-2">
-              <button type="button" className="btn btn-danger">
-                Delete Recipe
-              </button>
-            </div>
+            {this.props.currentUser.id === this.props.recipe.user_id && (
+              <div className="col-sm-12 col-lg-2">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={this.handleDelete}
+                >
+                  Delete Recipe
+                </button>
+              </div>
+            )}
           </div>
           <Link to="/" className="btn btn-link">
             Back to recipes
@@ -70,12 +89,17 @@ class SingleRecipe extends React.Component {
 
 // passing props of data from the store to this component
 const mapStateToProps = state => ({
-  recipe: state.recipes.selectedRecipe
+  recipe: state.recipes.selectedRecipe,
+  currentUser: state.user.currentUser,
+  selectedUser: state.user.selectedUser
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchRecipe: id => {
     dispatch(fetchSingleRecipe(id));
+  },
+  deleteRecipe: (id, history) => {
+    dispatch(deleteRecipeFetch(id, history))
   }
 });
 

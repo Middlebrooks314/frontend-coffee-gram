@@ -2,24 +2,31 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card, CardDeck } from "react-bootstrap";
-import { getUserProfileData } from "../reducers/user-reducer";
+import { Card, CardDeck, Button } from "react-bootstrap";
+import { getUserProfileData, deleteUserFetch } from "../reducers/user-reducer";
 import RecipeCard from "./RecipeCard";
 
 class Profile extends React.Component {
   componentDidMount() {
     this.props.fetchUserProfile(this.props.match.params.id);
   }
+
+  handleDelete = () => {
+    console.log("clicked", this.props.currentUser.id)
+    this.props.deleteUser(this.props.currentUser.id, this.props.history)
+  };
   render() {
+    const userRecipes = this.props.selectedUser.recipes || [];
     console.log(this.props.match.params.id);
-    console.log("in Profile", this.props.selectedUser.recipes);
-    const isLoaded = !!this.props.currentUser;
+    console.log("in Profile", this.props);
+    const isLoaded = !!this.props.currentUser.id;
+    // console.log(userRecipes);
     return isLoaded ? (
       <div className="">
         <div className="">
           <div className="overlay bg-dark position-absolute" />
           <h1 className="display-5 position-relative text-black">
-            {this.props.currentUser.username}
+            {this.props.selectedUser.username}
           </h1>
         </div>
         <div className="container py-5">
@@ -30,17 +37,17 @@ class Profile extends React.Component {
                   style={{ height: "250px" }}
                   className="img-fluid"
                   variant="top"
-                  src={this.props.currentUser.image}
+                  src={this.props.selectedUser.image}
                   waves
                 />
               </Card>
             </div>
             <div className="col-sm-12 col-lg-5">
               <h5 className="mb-2">About: </h5>
-              {this.props.currentUser.about ? (
+              {this.props.selectedUser.about ? (
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: this.props.currentUser.about
+                    __html: this.props.selectedUser.about
                   }}
                 />
               ) : (
@@ -48,20 +55,24 @@ class Profile extends React.Component {
               )}
             </div>
             <div className="col-sm-12 col-lg-3">
-              <Link to="/new" className="btn btn-link">
-                Add New Recipe
-              </Link>
+              {this.props.selectedUser.id === this.props.currentUser.id && (
+                <Link to="/new" className="btn btn-link">
+                  Add New Recipe
+                </Link>
+              )}
+              {this.props.selectedUser.id === this.props.currentUser.id && (
+                <Button onClick={this.handleDelete}>Delete Account</Button>
+              )}
             </div>
           </div>
-          <Link to="/" className="btn btn-link">
-            Back to recipes
-          </Link>
         </div>
-        {/* <CardDeck>
-      {this.props.selectedUser.recipes.map(recipe => {
-        return <RecipeCard id={recipe.id} key={recipe.id} recipe={recipe} />;
-      })}
-    </CardDeck> */}
+        <CardDeck>
+          {userRecipes.map(recipe => {
+            return (
+              <RecipeCard id={recipe.id} key={recipe.id} recipe={recipe} />
+            );
+          })}
+        </CardDeck>
       </div>
     ) : (
       <div>loading.............</div>
@@ -71,8 +82,8 @@ class Profile extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.user.currentUser,
     recipes: state.recipes.allRecipes,
+    currentUser: state.user.currentUser,
     selectedUser: state.user.selectedUser
   };
 };
@@ -80,6 +91,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   fetchUserProfile: id => {
     dispatch(getUserProfileData(id));
+  },
+  deleteUser: (id, history) => {
+    dispatch(deleteUserFetch(id, history));
   }
 });
 
