@@ -6,34 +6,31 @@ import { CardDeck } from "react-bootstrap";
 
 class Favorites extends Component {
   render() {
-      const isLoaded = !!this.props.currentUser.id;
-      let recipeId
-      let userFavorites = []
-      if (isLoaded) {
-         recipeId = this.props.currentUser.favorites.map(favorite => {
-            return (favorite.recipe_id)
-          })
-          console.log("in Favorites", this.props.currentUser.favorites, recipeId);
-          
-          userFavorites = this.props.allRecipes.filter(recipe => {
-            return (recipeId.includes(recipe.id))
-         })
-      
-         console.log(userFavorites)
-      } 
-    
+    const isLoaded = !!this.props.currentUser.id;
+    let userFavorites = [];
+    if (isLoaded) {
+      //  recipeId = this.props.currentUser.favorites.map(favorite => {
+      //     return (favorite.recipe_id)
+      //   })
+      //   console.log("in Favorites", this.props.currentUser.favorites, recipeId);
+
+    //   userFavorites = this.props.allRecipes.filter(recipe => {
+    //     return this.props.userFavoriteIds.includes(recipe.id);
+    //   });
+
+      console.log(userFavorites);
+    }
 
     return isLoaded ? (
       <div>
         <h3> Favorites </h3>
-        <CardDeck>
+        {/* <CardDeck>
           {userFavorites.map(recipe => {
             return (
               <RecipeCard id={recipe.id} key={recipe.id} recipe={recipe} />
             );
           })}
-        </CardDeck>
-       
+        </CardDeck> */}
       </div>
     ) : (
       <div>Loading...</div>
@@ -44,7 +41,8 @@ class Favorites extends Component {
 const mapStateToProps = state => {
   return {
     allRecipes: state.recipes.allRecipes,
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    userFavoriteIds: state.user.userFavoriteIds
   };
 };
 

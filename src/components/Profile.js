@@ -12,8 +12,8 @@ class Profile extends React.Component {
   }
 
   handleDelete = () => {
-    console.log("clicked", this.props.currentUser.id)
-    this.props.deleteUser(this.props.currentUser.id, this.props.history)
+    console.log("clicked", this.props.currentUser.id);
+    this.props.deleteUser(this.props.currentUser.id, this.props.history);
   };
   render() {
     const userRecipes = this.props.selectedUser.recipes || [];

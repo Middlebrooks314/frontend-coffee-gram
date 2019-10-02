@@ -18,7 +18,7 @@ class SingleRecipe extends React.Component {
       this.props.deleteRecipe(this.props.recipe.id, this.props.history)
     }
     else {
-      alert("you're recipe is still there")
+      console.log("you're recipe is still there")
     }
   };
 

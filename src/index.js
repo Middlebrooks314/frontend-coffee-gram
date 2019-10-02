@@ -8,13 +8,12 @@ import { Provider } from "react-redux";
 import recipesReducer from "./reducers/recipes-reducer";
 import userReducer from "./reducers/user-reducer";
 import thunkMiddleware from "redux-thunk";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const allReducers = combineReducers({
   recipes: recipesReducer,
   user: userReducer
 });
-
-
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
@@ -22,10 +21,11 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunkMiddleware))
 );
 
-
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

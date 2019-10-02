@@ -45,14 +45,14 @@ const setUserFavoriteIds = array => {
   return {
     type: USER_FAVORITE_IDS,
     payload: array
-  }
-}
+  };
+};
 /**
  *
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  */
 
 //thunk - implicitly returns another function asynch between the dispatch and the reducer
@@ -71,11 +71,7 @@ export const userPostFetch = (user, history) => {
       .then(resp => resp.json())
       .then(user => {
         if (user.message) {
-          console.log(user.message.value);
-
-          // Here should have logic to handle invalid creation of a user.
-          // This assumes your Rails API will return a JSON object with a key of
-          // 'message' if there is an error with creating the user, i.e. invalid username
+          alert(user.message);
         } else {
           localStorage.setItem("token", user.jwt);
           dispatch(loginUser(user.user));
@@ -113,16 +109,16 @@ export const userLoginFetch = (user, history) => {
           dispatch(loginUser(user.user));
           history.push("/");
           const recipeId = user.user.favorites.map(favorite => {
-            return (favorite.recipe_id)
-          })
-          dispatch(setUserFavoriteIds(recipeId))
+            return favorite.recipe_id;
+          });
+          dispatch(setUserFavoriteIds(recipeId));
         }
       })
       .catch(error => console.log(error));
   };
 };
 
-export const getProfileFetch = () => {
+export const getProfileFetch = history => {
   return async dispatch => {
     const token = localStorage.token;
     if (token) {
@@ -136,19 +132,25 @@ export const getProfileFetch = () => {
       })
         .then(resp => resp.json())
         .then(user => {
+          console.log("fooooo bar", user);
           if (user.message) {
+            history.push("/login");
+
+            console.log("error here ?", user);
             localStorage.removeItem("token");
           } else {
             console.log("profile fetching tokensss persisting", user);
-            dispatch(loginUser(user.user));      
+            dispatch(loginUser(user.user));
 
             const recipeId = user.user.favorites.map(favorite => {
-              return (favorite)
-            })
-            dispatch(setUserFavoriteIds(recipeId))
+              return favorite.recipe_id;
+            });
+            dispatch(setUserFavoriteIds(recipeId));
           }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          console.log("asdfasfdasfd", error);
+        });
     }
   };
 };
@@ -168,47 +170,52 @@ export const getUserProfileData = id => {
 export const deleteUserFetch = (id, history) => {
   return async dispatch => {
     console.log("delete user thunk fired", id);
-      fetch(`${userURL}/${id}`, {
-        method: "DELETE"
-      })
-        .then(resp => resp.json())
-        .then(data => {
-          console.log("deleted", data.message);
-          dispatch(deleteUser(id));
-          history.push("/");
-          localStorage.clear()
-        });
-    };
+    fetch(`${userURL}/${id}`, {
+      method: "DELETE"
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log("deleted", data.message);
+        dispatch(deleteUser(id));
+        history.push("/");
+        localStorage.clear();
+      });
   };
+};
 
-  const initialState = {
-    currentUser: {},
-    selectedUser: {},
-    userFavoriteIds: []
-  };
+const initialState = {
+  currentUser: {},
+  selectedUser: {},
+  userFavoriteIds: []
+};
 
-  export default function userReducer(state = initialState, action) {
-    switch (action.type) {
-      case "LOGIN_USER":
-        return { ...state, currentUser: action.payload, loggedIn: true };
-      case "LOGOUT_USER":
-        return {
-          currentUser: {},
-          logginIn: false
-        };
-      case SELECTED_USER:
-        return {
-          ...state,
-          selectedUser: action.payload
-        };
-      case DELETE_USER:
-        return {
-          currentUser: {},
-          selectedUser: {},
-          logginIn: false
-        };
-      default:
-        return state;
-    }
+export default function userReducer(state = initialState, action) {
+  switch (action.type) {
+    case "LOGIN_USER":
+      console.log(action);
+      return { ...state, currentUser: action.payload, loggedIn: true };
+    case "LOGOUT_USER":
+      return {
+        currentUser: {},
+        logginIn: false
+      };
+    case SELECTED_USER:
+      return {
+        ...state,
+        selectedUser: action.payload
+      };
+    case DELETE_USER:
+      return {
+        currentUser: {},
+        selectedUser: {},
+        logginIn: false
+      };
+    case USER_FAVORITE_IDS:
+      return {
+        ...state,
+        userFavoriteIds: action.payload
+      };
+    default:
+      return state;
   }
-
+}

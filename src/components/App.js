@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  withRouter
+} from "react-router-dom";
 import Profile from "./Profile";
 import Favorites from "./Favorites";
 import RecipeIndex from "./RecipeIndex";
@@ -19,29 +24,27 @@ import { getProfileFetch } from "../reducers/user-reducer";
 class App extends React.Component {
   componentDidMount() {
     this.props.fetchRecipes();
-    this.props.fetchProfile();
+    this.props.fetchProfile(this.props.history);
   }
 
   render() {
-    // console.log(this.props);
+    console.log(this.props);
     return (
       <React.Fragment>
-        <Router>
-          <NavigationBar />
-          <Jumbotron />
-          <Layout>
-            <Switch>
-              <Route exact path="/" component={RecipeIndex} />
-              <Route path="/profile/:id" component={Profile} />
-              <Route path="/favorites" component={Favorites} />
-              <Route path="/new" component={NewRecipeForm} />
-              <Route path="/login" component={LoginForm} />
-              <Route path="/signup" component={NewUserForm} />
-              <Route path="/recipe/:id" component={SingleRecipe} />
-              <Route component={NoMatch} />
-            </Switch>
-          </Layout>
-        </Router>
+        <NavigationBar />
+        <Jumbotron />
+        <Layout>
+          <Switch>
+            <Route exact path="/" component={RecipeIndex} />
+            <Route path="/profile/:id" component={Profile} />
+            <Route path="/favorites" component={Favorites} />
+            <Route path="/new" component={NewRecipeForm} />
+            <Route path="/login" component={LoginForm} />
+            <Route path="/signup" component={NewUserForm} />
+            <Route path="/recipe/:id" component={SingleRecipe} />
+            <Route component={NoMatch} />
+          </Switch>
+        </Layout>
       </React.Fragment>
     );
   }
@@ -53,11 +56,11 @@ const mapDispatchToProps = dispatch => {
     fetchRecipes: () => {
       dispatch(fetchInitialRecipes());
     },
-    fetchProfile: () => dispatch(getProfileFetch())
+    fetchProfile: history => dispatch(getProfileFetch(history))
   };
 };
 
 export default connect(
   null,
   mapDispatchToProps
-)(App);
+)(withRouter(App));
