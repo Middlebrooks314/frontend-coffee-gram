@@ -64,12 +64,14 @@ class SingleRecipe extends React.Component {
                 }}
                 className="mb-5"
               />
-              <h5 className="mb-2">Additional Notes</h5>
-              <div
+              {this.props.recipe.notes && ( <h5 className="mb-2">Additional Notes</h5>)}
+             
+              {this.props.recipe.notes && (<div
                 dangerouslySetInnerHTML={{
                   __html: `${this.props.recipe.notes}`
                 }}
-              />
+              />)}
+              
             </div>
             {this.props.currentUser.id === this.props.recipe.user_id && (
               <div className="col-sm-12 col-lg-2">
