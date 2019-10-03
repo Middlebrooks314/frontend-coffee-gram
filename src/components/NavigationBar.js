@@ -43,6 +43,10 @@ class NavigationBar extends React.Component {
               alt="logo"
             />
           </Navbar.Brand>
+
+        {this.props.loggedIn ? (<NavBar-Nav style={{ fontSize: "20px", color: "white" }}>{`Hello ${this.props.currentUser.username}`}</NavBar-Nav>):(console.log("not logged in"))}
+          
+          
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
@@ -90,7 +94,8 @@ class NavigationBar extends React.Component {
 const mapStateToProps = state => {
   // console.log("state in the navbarÔ", state);
   return {
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    loggedIn: state.user.loggedIn
   };
 };
 

@@ -193,7 +193,8 @@ export const deleteUserFetch = (id, history) => {
 const initialState = {
   currentUser: {},
   selectedUser: {},
-  favoriteIds: []
+  favoriteIds: [],
+  loggedIn: false
 };
 
 export default function userReducer(state = initialState, action) {

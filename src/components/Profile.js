@@ -22,6 +22,10 @@ class Profile extends React.Component {
       console.log("you're profile is still there");
     }
   };
+
+  handleAdd = () => {
+    this.props.history.push('/new')
+  }
   render() {
     const userRecipes = this.props.selectedUser.recipes || [];
     const isLoaded = !!this.props.currentUser.id;
@@ -61,12 +65,11 @@ class Profile extends React.Component {
             </div>
             <div className="col-sm-12 col-lg-3">
               {this.props.selectedUser.id === this.props.currentUser.id && (
-                <Link to="/new" className="btn btn-link">
-                  Add New Recipe
-                </Link>
+                
+                <Button variant="secondary" className="mb-4" onClick={this.handleAdd}>Add New Recipe</Button>
               )}
               {this.props.selectedUser.id === this.props.currentUser.id && (
-                <Button onClick={this.handleDelete}>Delete Account</Button>
+                <Button variant="secondary" onClick={this.handleDelete}>Delete Account</Button>
               )}
             </div>
           </div>

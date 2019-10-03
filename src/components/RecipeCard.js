@@ -50,7 +50,10 @@ const RecipeCard = props => {
               variant="outline-light"
               style={{ fontSize: "30px", color: "red" }}
               onClick={() => {
-                props.favoriteCreate(props.recipe.id, props.currentUser.id);
+                props.loggedIn ? (props.favoriteCreate(props.recipe.id, props.currentUser.id)):(
+                alert("Please login to favorite recipes.")
+                )
+                
               }}
             >
               ♡
@@ -65,7 +68,8 @@ const RecipeCard = props => {
 const mapStateToProps = state => {
   return {
     favoriteIds: state.user.favoriteIds,
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    loggedIn: state.user.loggedIn
   };
 };
 
