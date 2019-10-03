@@ -10,7 +10,7 @@ class Favorites extends Component {
     let userFavorites = [];
     if (isLoaded) {
       userFavorites = this.props.allRecipes.filter(recipe => {
-        return this.props.userFavoriteRecipeIds.includes(recipe.id);
+        return this.props.favoriteIds.includes(recipe.id);
       });
     }
 
@@ -35,7 +35,7 @@ const mapStateToProps = state => {
   return {
     allRecipes: state.recipes.allRecipes,
     currentUser: state.user.currentUser,
-    userFavoriteRecipeIds: state.user.userFavoriteRecipeIds
+    favoriteIds: state.user.favoriteIds
   };
 };
 

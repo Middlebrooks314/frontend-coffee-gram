@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { createFavoriteFetch } from "../reducers/favorites-reducer";
 import { deleteFavoriteFetch } from "../reducers/favorites-reducer";
+import { deleteFavorite } from "../reducers/user-reducer";
 
 const RecipeCard = props => {
-  console.log("in RecipeCard", props);
+  console.log("in RecipeCard", props.favoriteIds);
   return (
     <div>
       <Card style={{ width: "350px" }}>
@@ -29,17 +30,17 @@ const RecipeCard = props => {
               <Card.Text>By {props.recipe.user.username}</Card.Text>
             </Link>
           )}
-
-          {/* {props.recipe.favorites.user_id === props.} */}
-          {props.favoritesRecipeId.includes(props.recipe.id) ? (
+             {props.favoriteIds.includes(props.recipe.id) ? (
             <Button
               variant="outline-light"
               style={{ fontSize: "37px", color: "red" }}
               onClick={() => {
+                
                 const favorite = props.currentUser.favorites.find(favorite => {
-                  return favorite.recipe_id === props.recipe.id
-                })
-                props.favoriteDelete(favorite.id);
+                  return favorite.recipe_id === props.recipe.id;
+                });
+                props.favoriteDelete(favorite.id)
+                props.deleteFavoriteFromArray(props.recipe.id)
               }}
             >
               ♥️
@@ -47,7 +48,7 @@ const RecipeCard = props => {
           ) : (
             <Button
               variant="outline-light"
-              style={{ fontSize: "30px", color: "red"}}
+              style={{ fontSize: "30px", color: "red" }}
               onClick={() => {
                 props.favoriteCreate(props.recipe.id, props.currentUser.id);
               }}
@@ -63,9 +64,8 @@ const RecipeCard = props => {
 
 const mapStateToProps = state => {
   return {
-    favoritesRecipeId: state.user.userFavoriteRecipeIds,
+    favoriteIds: state.user.favoriteIds,
     currentUser: state.user.currentUser
-
   };
 };
 
@@ -75,6 +75,10 @@ const mapDispatchToProps = dispatch => ({
   },
   favoriteDelete: id => {
     dispatch(deleteFavoriteFetch(id));
+  },
+
+  deleteFavoriteFromArray: recipeId => {
+    dispatch(deleteFavorite(recipeId))
   }
 });
 

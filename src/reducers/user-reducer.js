@@ -9,11 +9,9 @@ const LOGIN_USER = "LOGIN_USER";
 const LOGOUT_USER = "LOGOUT_USER";
 const SELECTED_USER = "SELECTED_USER";
 const DELETE_USER = "DELETE_USER";
-const USER_FAVORITE_RECIPE_IDS = "USER_FAVORITE_RECIPE_IDS";
-const FAVORITES_IDS = "FAVORITES_IDS";
-const ADD_FAVORITES = "ADD_FAVORITES"
-
-const DELETE_FAVORITES = "DELETE_FAVORITES"
+const ADD_FAVORITE = "ADD_FAVORITE";
+const DELETE_FAVORITE = "DELETE_FAVORITE";
+const ADD_NEW_FAVORITE = "ADD_NEW_FAVORITE";
 
 //action creators
 
@@ -23,8 +21,6 @@ const loginUser = user => {
     payload: user
   };
 };
-
-
 
 export function logoutUser() {
   console.log("user logged out");
@@ -47,22 +43,19 @@ const deleteUser = userId => {
   };
 };
 
-const setUserFavoriteRecipeIds = array => {
+const setUserFavorites = array => {
   return {
-    type: USER_FAVORITE_RECIPE_IDS,
+    type: ADD_FAVORITE,
     payload: array
   };
 };
 
-const setFavoriteIds = array => {
+export const deleteFavorite = id => {
   return {
-    type: FAVORITES_IDS,
-    payload: array
+    type: DELETE_FAVORITE,
+    payload: id
   };
 };
-
-
-
 
 /**
  *
@@ -125,14 +118,10 @@ export const userLoginFetch = (user, history) => {
           localStorage.setItem("token", user.jwt);
           dispatch(loginUser(user.user));
           history.push("/");
-          const recipeId = user.user.favorites.map(favorite => {
+          const favoriteRecipeId = user.user.favorites.map(favorite => {
             return favorite.recipe_id;
           });
-          const favoritesId = user.user.favorites.map(favorite => {
-            return favorite.id;
-          });
-          dispatch(setUserFavoriteRecipeIds(recipeId));
-          dispatch(setFavoriteIds(favoritesId));
+          dispatch(setUserFavorites(favoriteRecipeId));
         }
       })
       .catch(error => console.log(error));
@@ -161,14 +150,11 @@ export const getProfileFetch = history => {
           } else {
             dispatch(loginUser(user.user));
 
-            const recipeId = user.user.favorites.map(favorite => {
+            const favoriteRecipeId = user.user.favorites.map(favorite => {
               return favorite.recipe_id;
             });
-            const favoritesId = user.user.favorites.map(favorite => {
-              return favorite.id;
-            });
-            dispatch(setUserFavoriteRecipeIds(recipeId));
-            dispatch(setFavoriteIds(favoritesId));
+
+            dispatch(setUserFavorites(favoriteRecipeId));
           }
         })
         .catch(error => {
@@ -207,8 +193,7 @@ export const deleteUserFetch = (id, history) => {
 const initialState = {
   currentUser: {},
   selectedUser: {},
-  userFavoriteRecipeIds: [],
-  favoritesIds: []
+  favoriteIds: []
 };
 
 export default function userReducer(state = initialState, action) {
@@ -218,7 +203,7 @@ export default function userReducer(state = initialState, action) {
     case LOGOUT_USER:
       return {
         currentUser: {},
-        logginIn: false
+        loggedIn: false
       };
     case SELECTED_USER:
       return {
@@ -229,28 +214,22 @@ export default function userReducer(state = initialState, action) {
       return {
         currentUser: {},
         selectedUser: {},
-        logginIn: false
+        loggedIn: false
       };
-    case USER_FAVORITE_RECIPE_IDS:
+    case ADD_FAVORITE:
       return {
         ...state,
-        userFavoriteRecipeIds: action.payload
+        favoriteIds: action.payload
       };
-    case FAVORITES_IDS:
+    case ADD_NEW_FAVORITE:
       return {
         ...state,
-        favoritesIds: action.payload
+        favoriteIds: [...state.favoriteIds, action.payload]
       };
-    case ADD_FAVORITES:
+    case DELETE_FAVORITE:
       return {
         ...state,
-        userFavoriteRecipeIds: action.payload
-      };
-    case DELETE_FAVORITES:
-      return {
-        userFavoriteRecipeIds: state.userFavoriteRecipeIds.filter(
-          id => id !== action.payload
-        )
+        favoriteIds: state.favoriteIds.filter(id => id !== action.payload)
       };
     default:
       return state;
