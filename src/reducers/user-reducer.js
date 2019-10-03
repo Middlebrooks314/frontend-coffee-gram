@@ -9,7 +9,11 @@ const LOGIN_USER = "LOGIN_USER";
 const LOGOUT_USER = "LOGOUT_USER";
 const SELECTED_USER = "SELECTED_USER";
 const DELETE_USER = "DELETE_USER";
-const USER_FAVORITE_IDS = "USER_FAVORITE_IDS";
+const USER_FAVORITE_RECIPE_IDS = "USER_FAVORITE_RECIPE_IDS";
+const FAVORITES_IDS = "FAVORITES_IDS";
+const ADD_FAVORITES = "ADD_FAVORITES"
+
+const DELETE_FAVORITES = "DELETE_FAVORITES"
 
 //action creators
 
@@ -19,6 +23,8 @@ const loginUser = user => {
     payload: user
   };
 };
+
+
 
 export function logoutUser() {
   console.log("user logged out");
@@ -41,12 +47,23 @@ const deleteUser = userId => {
   };
 };
 
-const setUserFavoriteIds = array => {
+const setUserFavoriteRecipeIds = array => {
   return {
-    type: USER_FAVORITE_IDS,
+    type: USER_FAVORITE_RECIPE_IDS,
     payload: array
   };
 };
+
+const setFavoriteIds = array => {
+  return {
+    type: FAVORITES_IDS,
+    payload: array
+  };
+};
+
+
+
+
 /**
  *
  *
@@ -111,7 +128,11 @@ export const userLoginFetch = (user, history) => {
           const recipeId = user.user.favorites.map(favorite => {
             return favorite.recipe_id;
           });
-          dispatch(setUserFavoriteIds(recipeId));
+          const favoritesId = user.user.favorites.map(favorite => {
+            return favorite.id;
+          });
+          dispatch(setUserFavoriteRecipeIds(recipeId));
+          dispatch(setFavoriteIds(favoritesId));
         }
       })
       .catch(error => console.log(error));
@@ -132,20 +153,22 @@ export const getProfileFetch = history => {
       })
         .then(resp => resp.json())
         .then(user => {
-          console.log("fooooo bar", user);
           if (user.message) {
             history.push("/login");
 
             console.log("error here ?", user);
             localStorage.removeItem("token");
           } else {
-            console.log("profile fetching tokensss persisting", user);
             dispatch(loginUser(user.user));
 
             const recipeId = user.user.favorites.map(favorite => {
               return favorite.recipe_id;
             });
-            dispatch(setUserFavoriteIds(recipeId));
+            const favoritesId = user.user.favorites.map(favorite => {
+              return favorite.id;
+            });
+            dispatch(setUserFavoriteRecipeIds(recipeId));
+            dispatch(setFavoriteIds(favoritesId));
           }
         })
         .catch(error => {
@@ -157,11 +180,9 @@ export const getProfileFetch = history => {
 
 export const getUserProfileData = id => {
   return async dispatch => {
-    console.log("get profile thunk fired", id);
     fetch(`${userURL}/recipes/${id}`)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
         dispatch(getProfileData(data));
       });
   };
@@ -186,15 +207,15 @@ export const deleteUserFetch = (id, history) => {
 const initialState = {
   currentUser: {},
   selectedUser: {},
-  userFavoriteIds: []
+  userFavoriteRecipeIds: [],
+  favoritesIds: []
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case "LOGIN_USER":
-      console.log(action);
+    case LOGIN_USER:
       return { ...state, currentUser: action.payload, loggedIn: true };
-    case "LOGOUT_USER":
+    case LOGOUT_USER:
       return {
         currentUser: {},
         logginIn: false
@@ -210,10 +231,26 @@ export default function userReducer(state = initialState, action) {
         selectedUser: {},
         logginIn: false
       };
-    case USER_FAVORITE_IDS:
+    case USER_FAVORITE_RECIPE_IDS:
       return {
         ...state,
-        userFavoriteIds: action.payload
+        userFavoriteRecipeIds: action.payload
+      };
+    case FAVORITES_IDS:
+      return {
+        ...state,
+        favoritesIds: action.payload
+      };
+    case ADD_FAVORITES:
+      return {
+        ...state,
+        userFavoriteRecipeIds: action.payload
+      };
+    case DELETE_FAVORITES:
+      return {
+        userFavoriteRecipeIds: state.userFavoriteRecipeIds.filter(
+          id => id !== action.payload
+        )
       };
     default:
       return state;

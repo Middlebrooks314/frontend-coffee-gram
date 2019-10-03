@@ -9,28 +9,21 @@ class Favorites extends Component {
     const isLoaded = !!this.props.currentUser.id;
     let userFavorites = [];
     if (isLoaded) {
-      //  recipeId = this.props.currentUser.favorites.map(favorite => {
-      //     return (favorite.recipe_id)
-      //   })
-      //   console.log("in Favorites", this.props.currentUser.favorites, recipeId);
-
-    //   userFavorites = this.props.allRecipes.filter(recipe => {
-    //     return this.props.userFavoriteIds.includes(recipe.id);
-    //   });
-
-      console.log(userFavorites);
+      userFavorites = this.props.allRecipes.filter(recipe => {
+        return this.props.userFavoriteRecipeIds.includes(recipe.id);
+      });
     }
 
     return isLoaded ? (
       <div>
         <h3> Favorites </h3>
-        {/* <CardDeck>
+        <CardDeck>
           {userFavorites.map(recipe => {
             return (
               <RecipeCard id={recipe.id} key={recipe.id} recipe={recipe} />
             );
           })}
-        </CardDeck> */}
+        </CardDeck>
       </div>
     ) : (
       <div>Loading...</div>
@@ -42,7 +35,7 @@ const mapStateToProps = state => {
   return {
     allRecipes: state.recipes.allRecipes,
     currentUser: state.user.currentUser,
-    userFavoriteIds: state.user.userFavoriteIds
+    userFavoriteRecipeIds: state.user.userFavoriteRecipeIds
   };
 };
 
@@ -54,4 +47,3 @@ export default withRouter(
     mapDispatchToProps
   )(Favorites)
 );
-// export default Favorites;

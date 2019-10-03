@@ -13,12 +13,17 @@ class Profile extends React.Component {
 
   handleDelete = () => {
     console.log("clicked", this.props.currentUser.id);
-    this.props.deleteUser(this.props.currentUser.id, this.props.history);
+    let confirmDelete = window.confirm(
+      "Are you sure you want to delete your account?"
+    );
+    if (confirmDelete === true) {
+      this.props.deleteUser(this.props.currentUser.id, this.props.history);
+    } else {
+      console.log("you're profile is still there");
+    }
   };
   render() {
     const userRecipes = this.props.selectedUser.recipes || [];
-    console.log(this.props.match.params.id);
-    console.log("in Profile", this.props);
     const isLoaded = !!this.props.currentUser.id;
     // console.log(userRecipes);
     return isLoaded ? (

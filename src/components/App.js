@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Route,
   Switch,
   withRouter
@@ -28,7 +28,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <React.Fragment>
         <NavigationBar />

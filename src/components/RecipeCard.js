@@ -1,6 +1,9 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { createFavoriteFetch } from "../reducers/favorites-reducer";
+import { deleteFavoriteFetch } from "../reducers/favorites-reducer";
 
 const RecipeCard = props => {
   console.log("in RecipeCard", props);
@@ -21,17 +24,62 @@ const RecipeCard = props => {
             <Card.Title>{props.recipe.title}</Card.Title>
           </Link>
           <Card.Text>Method: {props.recipe.method}</Card.Text>
-          {props.recipe.user && <Link to={`/profile/${props.recipe.user.id}`}><Card.Text>By {props.recipe.user.username}</Card.Text></Link>}
-
+          {props.recipe.user && (
+            <Link to={`/profile/${props.recipe.user.id}`}>
+              <Card.Text>By {props.recipe.user.username}</Card.Text>
+            </Link>
+          )}
 
           {/* {props.recipe.favorites.user_id === props.} */}
-          <Button variant="outline-light"  style={{fontSize: "37px", color:'black'}}>{'</3'}</Button>
-          <Button style={{fontSize: "30px"}}>{'<3'}</Button>
-
+          {props.favoritesRecipeId.includes(props.recipe.id) ? (
+            <Button
+              variant="outline-light"
+              style={{ fontSize: "37px", color: "red" }}
+              onClick={() => {
+                const favorite = props.currentUser.favorites.find(favorite => {
+                  return favorite.recipe_id === props.recipe.id
+                })
+                props.favoriteDelete(favorite.id);
+              }}
+            >
+              ♥️
+            </Button>
+          ) : (
+            <Button
+              variant="outline-light"
+              style={{ fontSize: "30px", color: "red"}}
+              onClick={() => {
+                props.favoriteCreate(props.recipe.id, props.currentUser.id);
+              }}
+            >
+              ♡
+            </Button>
+          )}
         </Card.Body>
       </Card>
     </div>
   );
 };
 
-export default RecipeCard;
+const mapStateToProps = state => {
+  return {
+    favoritesRecipeId: state.user.userFavoriteRecipeIds,
+    currentUser: state.user.currentUser
+
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  favoriteCreate: (recipeId, userId) => {
+    dispatch(createFavoriteFetch(recipeId, userId));
+  },
+  favoriteDelete: id => {
+    dispatch(deleteFavoriteFetch(id));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RecipeCard);
+// export default RecipeCard;

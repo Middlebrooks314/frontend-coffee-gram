@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import recipesReducer from "./reducers/recipes-reducer";
 import userReducer from "./reducers/user-reducer";
 import thunkMiddleware from "redux-thunk";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const allReducers = combineReducers({
   recipes: recipesReducer,
