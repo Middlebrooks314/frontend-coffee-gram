@@ -7,7 +7,9 @@ import { connect } from "react-redux";
 class NewUserForm extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    image: "",
+    about: ""
   };
 
   //  [event.target.name]: event.target.value will take in any of the fields that match any of the state objects and evaluate that as the key.
@@ -57,6 +59,14 @@ class NewUserForm extends Component {
             <Form.Group controlId="formBasicPasswordConfirm">
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control type="password" placeholder="Confirm Password" name="passwordConfirmation"/>
+            </Form.Group>
+            <Form.Group controlId="formImage">
+              <Form.Label>Profile Image</Form.Label>
+              <Form.Control type="text" placeholder="upload image" name="image" onChange={this.handleChange}/>
+            </Form.Group>
+            <Form.Group controlId="formImage">
+              <Form.Label>About</Form.Label>
+              <Form.Control type="text" placeholder="Tell us about yourself" name="about" onChange={this.handleChange}/>
             </Form.Group>
           </Form>
         </Modal.Body>
