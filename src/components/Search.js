@@ -10,7 +10,7 @@ class Search extends Component {
           <input
             className="form-control form-control-sm ml-3 w-75"
             type="text"
-            placeholder="Search"
+            placeholder="Search Coffee Recipes"
             aria-label="Search"
           />
         </form>
