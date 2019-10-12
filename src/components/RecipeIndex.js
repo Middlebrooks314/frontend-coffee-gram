@@ -1,20 +1,13 @@
 import React, { Component } from "react";
-import RecipeList from './RecipeList'
+import RecipeList from "./RecipeList";
+import Search from "./Search"
 
 
 class RecipeIndex extends Component {
-    constructor() {
-        super() 
-        this.state = {
-            recipes: []
-        }
-    }
-
-
-    
   render() {
     return (
       <div>
+        {/* <Search /> */}
         <RecipeList />
       </div>
     );
@@ -22,3 +15,4 @@ class RecipeIndex extends Component {
 }
 
 export default RecipeIndex;
+// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RecipeIndex));

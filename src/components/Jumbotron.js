@@ -10,7 +10,7 @@ const Styles = styled.div`
         background: url(${coffeeImage}) no-repeat fixed bottom;
         background-size: cover;
         color: #ccc;
-        height: 200px;
+        height: 350px;
         position: relative;
         z-index: -2
     }
@@ -31,8 +31,9 @@ const Styles = styled.div`
 export const Jumbotron = () => (
     <Styles>
         <Jumbo fluid className="jumbo">
+            
             <Container>
-                {/* <h2>Hey there</h2> */}
+            
             </Container>
         </Jumbo>
     </Styles>
