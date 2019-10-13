@@ -8,6 +8,7 @@ const SELECTED_RECIPE = "SELECTED_RECIPE";
 const DELETE_RECIPE = "DELETE_RECIPE";
 //action creators
 
+
 const getRecipes = recipesArr => {
   return {
     type: GET_RECIPES,
@@ -38,6 +39,7 @@ const deleteRecipe = recipeId => {
 
 //thunk - implicitly returns another function asynch between the dispatch and the reducer
 
+// fetches all the recipes on the index page and sets the state to all the recipes. 
 export const fetchInitialRecipes = () => {
   return async dispatch => {
     // console.log("thunk fired!!");
@@ -51,6 +53,7 @@ export const fetchInitialRecipes = () => {
   };
 };
 
+// Post fetch for a new recipe, and sends the page to the new recipe show page after the fetch returns
 export const postNewRecipe = (recipeObj, history) => {
   return async dispatch => {
     console.log("post-thunk fired!");
@@ -74,6 +77,7 @@ export const postNewRecipe = (recipeObj, history) => {
   };
 };
 
+// when a user clicks on a recipe card, the single recipe is fetched to show the recipe show page. 
 export const fetchSingleRecipe = id => {
   return async dispatch => {
     console.log("get recipe thunk fired", id);
@@ -86,6 +90,7 @@ export const fetchSingleRecipe = id => {
   };
 };
 
+// Delete fetch when a recipe is deleted. 
 export const deleteRecipeFetch = (id, history) => {
   return async dispatch => {
     console.log("delete recipe thunk fired", id);
