@@ -67,6 +67,7 @@ export const deleteFavorite = id => {
 
 //thunk - implicitly returns another function asynch between the dispatch and the reducer
 
+// creates a new user from the sign up form 
 export const userPostFetch = (user, history) => {
   return async dispatch => {
     console.log("user post-thunk fired!");
@@ -92,6 +93,7 @@ export const userPostFetch = (user, history) => {
   };
 };
 
+// logins in a user from the sign in form 
 export const userLoginFetch = (user, history) => {
   return async dispatch => {
     console.log("login thunk fired", user);
@@ -128,6 +130,7 @@ export const userLoginFetch = (user, history) => {
   };
 };
 
+// persists login token 
 export const getProfileFetch = history => {
   return async dispatch => {
     const token = localStorage.token;
@@ -164,6 +167,7 @@ export const getProfileFetch = history => {
   };
 };
 
+// fetches user profile page data
 export const getUserProfileData = id => {
   return async dispatch => {
     fetch(`${userURL}/recipes/${id}`)
@@ -174,6 +178,8 @@ export const getUserProfileData = id => {
   };
 };
 
+
+// delete user fetch
 export const deleteUserFetch = (id, history) => {
   return async dispatch => {
     console.log("delete user thunk fired", id);
