@@ -106,7 +106,7 @@ export const deleteRecipeFetch = (id, history) => {
   };
 };
 
-//initial state
+
 
 const initialState = {
   allRecipes: [],
