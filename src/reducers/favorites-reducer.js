@@ -15,7 +15,7 @@ const addNewFavorite = (id) => {
     };
   };
 
-
+// after response the new favorite is added to the user favorites array 
 export const createFavoriteFetch = (recipeId, userId) => {
   return dispatch => {
     console.log("creating the favss", recipeId, userId);
@@ -36,6 +36,7 @@ export const createFavoriteFetch = (recipeId, userId) => {
       });
   };
 };
+
 
 export const deleteFavoriteFetch = (id) => {
   return async dispatch => {
