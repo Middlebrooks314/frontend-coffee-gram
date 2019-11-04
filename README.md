@@ -1,5 +1,4 @@
-<div style="width:100%;height:0;padding-bottom:63%;position:relative;"><iframe src="https://giphy.com/embed/da6WmOHwcyL4GwFSVg" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/da6WmOHwcyL4GwFSVg">via GIPHY</a></p>
-
+<a href="https://imgflip.com/gif/3f9hny"><img src="https://i.imgflip.com/3f9hny.gif" title="made at imgflip.com"/></a>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
