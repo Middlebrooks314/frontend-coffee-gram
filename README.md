@@ -1,4 +1,4 @@
-<iframe src="https://giphy.com/embed/da6WmOHwcyL4GwFSVg" width="480" height="300" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/da6WmOHwcyL4GwFSVg">via GIPHY</a></p>
+https://media.giphy.com/media/da6WmOHwcyL4GwFSVg/giphy.gif
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
