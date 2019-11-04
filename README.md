@@ -1,7 +1,7 @@
 <a href="https://imgflip.com/gif/3f9hny"><img src="https://i.imgflip.com/3f9hny.gif" title="made at imgflip.com"/></a>
 
 Demo Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-Bn8Yw6g-NY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+https://youtu.be/-Bn8Yw6g-NY
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
